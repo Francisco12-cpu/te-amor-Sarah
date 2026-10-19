@@ -94,7 +94,7 @@ CENAS.push({
 
     const escrever = tituloCoraline(svg, 180, 372, .78, C.tinta, "#D8C3A0");
     const para = S("text", { x: 180, y: 492, "text-anchor": "middle", style: "font-family:var(--mao);font-size:22px", fill: C.tinta, opacity: 0, txt: txt("c1_para") }, svg);
-    const gato = gatoEspia(svg, 340, 628, -24, "c1");
+    const gato = gatoEspia(svg, 340, 296, -90, "c1");
 
     return {
       tocar(t) {
@@ -270,7 +270,7 @@ CENAS.push({
     const abre = pontos.map((_, i) => (i < 4 ? 2700 + i * 220 : i < 9 ? 6800 + (i - 4) * 260 : 12300 + (i - 9) * 230));
     const linhaSolta = S("path", { fill: "none", style: "stroke:var(--fio)", "stroke-width": 1.3 }, cab);
 
-    const gato = gatoEspia(svg, 38, 22, 172, "c3");
+    const gato = gatoEspia(svg, 44, 30, 172, "c3");
 
     return {
       tocar(t) {

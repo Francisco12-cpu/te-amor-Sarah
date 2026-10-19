@@ -224,6 +224,7 @@ svg .toque { cursor: pointer; }
 }
 #aviso.on { opacity: 1; }
 
+.lendo #controles,
 .gravando #controles,
 .gravando #aviso { display: none; }
 
@@ -281,6 +282,8 @@ svg .toque { cursor: pointer; }
   border-bottom: 2px dashed var(--tinta);
   padding-bottom: 2px;
 }
+.sobre > .t11-titulo,
+.sobre > .t11-linha { pointer-events: none; }
 .t11-linha {
   position: absolute;
   left: 6%; right: 6%;
@@ -308,7 +311,7 @@ svg .toque { cursor: pointer; }
   transition: opacity .5s;
   cursor: pointer;
 }
-.t11-seguir.on { opacity: 1; pointer-events: auto; }
+.t11-linha .t11-seguir.on { opacity: 1; pointer-events: auto; }
 
 /* cena 14 */
 .t14 {
@@ -384,6 +387,8 @@ svg .toque { cursor: pointer; }
   left: 0; right: 0; bottom: .45em;
   text-align: center;
 }
+.sobre > .t15-rodape { pointer-events: none; }
+.t15-rodape button { pointer-events: auto; }
 .t15-rodape {
   position: absolute;
   left: 0; right: 0;
@@ -433,7 +438,7 @@ svg .toque { cursor: pointer; }
   flex: 1;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  padding: 26px 22px 30px;
+  padding: 30px 22px 30px;
   font-size: clamp(17px, 4.6vw, 21px);
   line-height: 1.5;
   color: var(--tinta);
@@ -452,8 +457,10 @@ svg .toque { cursor: pointer; }
 .carta p.ass { text-align: right; font-style: italic; }
 .carta .fechar {
   position: absolute;
-  top: -6px; right: -6px;
-  width: 44px; height: 44px;
+  top: 6px; right: 6px;
+  width: 48px; height: 48px;
+  z-index: 2;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, .35);
   border-radius: 50%;
   border: 0;
   background: var(--tinta);
@@ -461,6 +468,23 @@ svg .toque { cursor: pointer; }
   font: 20px var(--mao);
   cursor: pointer;
 }
+
+.carta .fechar-fim {
+  display: block;
+  margin: .4em auto 0;
+  min-height: 48px;
+  padding: .5em 1.4em;
+  border-radius: 99px;
+  border: 0;
+  background: var(--tinta);
+  color: var(--papel-claro);
+  font: inherit;
+  font-size: .95em;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+.carta .fechar-fim.v { opacity: 1; }
 
 /* cortina de botões (replay) */
 .cortina {

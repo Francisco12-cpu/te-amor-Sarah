@@ -122,23 +122,47 @@ function marcarGato(id) {
   aviso(txt("aviso_gato", { G: E.gatos.size }));
   return true;
 }
-function gatoEspia(pai, x, y, rot, id, esc = 1, aoTocar) {
+function gatoEspia(pai, x, y, rot, id, esc = 1.35, aoTocar) {
   const g = S("g", { class: "toque", transform: `translate(${x} ${y}) rotate(${rot}) scale(${esc})` }, pai);
-  S("circle", { cx: 0, cy: 0, r: 34, fill: "transparent" }, g);
+  // área de toque bem maior que o desenho: fácil de acertar com o dedo
+  S("circle", { cx: 0, cy: -4, r: 46, fill: "transparent" }, g);
   const cab = S("g", {}, g);
   S("use", { href: "#gato", x: -30, y: -30, width: 60, height: 50 }, cab);
+  // brilhinho que chama a atenção enquanto o gato não foi achado
+  const dica = S("use", { href: "#estrela", x: -6, y: -6, width: 12, height: 12, color: "#EFE9DD" }, g);
+  const coracao = S("path", { d: "M0,-44 C-6,-52 -16,-46 -10,-38 L0,-30 L10,-38 C16,-46 6,-52 0,-44Z", fill: "#E8607F", opacity: 0 }, g);
+  let achadoEm = null;
   g.addEventListener("pointerup", (ev) => {
     ev.stopPropagation();
     Som.iniciar();
     if (aoTocar) aoTocar();
     else marcarGato(id);
+    achadoEm = E.relogio;
   });
   return {
     g,
     tocar(t) {
-      const sai = 6 + 5 * (0.5 + 0.5 * Math.sin(t / 1300 + x));
-      cab.setAttribute("transform", `translate(0 ${n1(sai)}) rotate(${n1(Math.sin(q12(t) / 900) * 4)})`);
+      const sai = 2 * (0.5 + 0.5 * Math.sin(t / 1300 + x));
+      const tq = q12(t);
+      cab.setAttribute("transform", `translate(0 ${n1(sai)}) rotate(${n1(Math.sin(tq / 900) * 5)})`);
+      const visto = aoTocar ? achadoEm !== null : E.gatos.has(id);
+      const pul = Math.max(0, Math.sin(t / 450));
+      dica.setAttribute("transform", `translate(24 -30) rotate(${n1(t * .05)}) scale(${visto ? 0 : n1(.4 + pul * .8)})`);
+      dica.setAttribute("opacity", visto ? 0 : (.35 + pul * .65).toFixed(2));
+      const pc = achadoEm === null ? 0 : fase(E.relogio, achadoEm, achadoEm + 1200);
+      coracao.setAttribute("opacity", pc > 0 && pc < 1 ? Math.sin(pc * Math.PI).toFixed(2) : 0);
+      coracao.setAttribute("transform", `translate(0 ${n1(-pc * 18)})`);
     },
+  };
+}
+
+// brilhinho de dica perto de um gato que faz parte da cena (9 e 10)
+function dicaGato(pai, x, y, id) {
+  const d = S("use", { href: "#estrela", x: -6, y: -6, width: 12, height: 12, color: "#EFE9DD", "pointer-events": "none" }, pai);
+  return (t) => {
+    const visto = E.gatos.has(id), pul = Math.max(0, Math.sin(t / 450));
+    d.setAttribute("transform", `translate(${x} ${y}) rotate(${n1(t * .05)}) scale(${visto ? 0 : n1(.5 + pul * .9)})`);
+    d.setAttribute("opacity", visto ? 0 : (.35 + pul * .65).toFixed(2));
   };
 }
 

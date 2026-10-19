@@ -249,7 +249,7 @@ function coralineDeitada(pai) {
 
 function gatoAndando(pai, olho) {
   const g = S("g", { class: "toque" }, pai);
-  S("circle", { r: 40, fill: "transparent" }, g);
+  S("circle", { r: 52, fill: "transparent" }, g);
   const pernas = S("path", { stroke: "#111", "stroke-width": 4.5, "stroke-linecap": "round", fill: "none" }, g);
   S("path", { d: "M-26,0 C-26,-15 20,-17 26,-5 C30,6 20,12 0,12 C-20,12 -26,8 -26,0Z", fill: "#111", stroke: "#bdb6a8", "stroke-width": .9 }, g);
   S("path", { d: "M-24,-3 C-40,-10 -44,-30 -34,-38", stroke: "#111", "stroke-width": 4.5, fill: "none", "stroke-linecap": "round" }, g);
@@ -314,6 +314,7 @@ CENAS.push({
 
     const cora = coralineDeitada(svg);
     const gato = gatoAndando(svg, "#6FA8FF");
+    const dica9 = dicaGato(gato.g, 30, -40, "c9");
     gato.g.addEventListener("pointerup", (ev) => { ev.stopPropagation(); marcarGato("c9"); });
 
     return {
@@ -340,6 +341,7 @@ CENAS.push({
         if (pj > 0) { gx += pj * 160; gy -= Math.sin(pj * Math.PI) * 90 + pj * pj * 280; }
         gato.g.setAttribute("transform", `translate(${n1(gx)} ${n1(gy)}) rotate(${n1(-pj * 30)})`);
         gato.passo(t);
+        dica9(t);
       },
     };
   },
@@ -387,6 +389,7 @@ CENAS.push({
     S("path", { d: "M163,346 L160,322 L174,338Z", fill: "#111" }, gato);
     const orelha = S("path", { d: "M193,346 L196,322 L182,338Z", fill: "#111" }, gato);
     gato.addEventListener("pointerup", (ev) => { ev.stopPropagation(); marcarGato("c10"); });
+    const dica10 = dicaGato(galho, 212, 330, "c10");
 
     // chaves que nascem da lua (transição para a cena 11)
     const chaves = [];
@@ -400,6 +403,7 @@ CENAS.push({
 
     // olhos acesos (fora do filtro cinza: a primeira pista de cor)
     const cor = arte(raiz, false);
+    cor.style.pointerEvents = "none"; // camada só visual: não pode roubar o toque
     const olhos = S("g", { opacity: 0 }, cor);
     [[170, 350], [186, 350]].forEach(([x, y]) => {
       S("circle", { cx: x, cy: y, r: 11, fill: "url(#brilhoOuro)" }, olhos);
@@ -423,6 +427,7 @@ CENAS.push({
         const o = 2600 + 1400;
         const po = fase(t, o, o + 160) * (1 - fase(t, o + 1000, o + 1250));
         olhos.setAttribute("opacity", po.toFixed(3));
+        dica10(t);
         chaves.forEach((c) => {
           const p = fase(t, 10800, 12800);
           c.g.setAttribute("opacity", p > 0 ? 1 : 0);
@@ -505,6 +510,7 @@ CENAS.push({
 
     // camada de cor (fora do filtro): o ponto amarelo
     const cor = arte(raiz, false);
+    cor.style.pointerEvents = "none"; // camada só visual: não pode roubar o toque
     const escuro = S("rect", { x: -400, y: -400, width: 1160, height: 1440, fill: "#0E0E10", opacity: 0 }, cor);
     const ponto = S("circle", { cx: 180, cy: 320, r: 0, fill: C.amarelo }, cor);
     const pontoG = S("circle", { cx: 180, cy: 320, r: 0, fill: "url(#brilhoOuro)" }, cor);

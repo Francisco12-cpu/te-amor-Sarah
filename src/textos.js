@@ -51,6 +51,7 @@ const TEXTOS = {
 
   c15_abrir: "abrir a carta",
   c15_fechar: "fechar a carta",
+  c15_dica: "tem 10 botões escondidos no céu ✨",
   c15_denovo: "ver de novo",
   c15_gravar: "gravar vídeo",
   c15_credito: "feito pelo seu amigo que te ama",

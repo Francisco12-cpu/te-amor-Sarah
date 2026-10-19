@@ -198,7 +198,7 @@ CENAS.push({
     useChave(giroY, K[0], K[1], 1, "#CFAE8A");
     const nó = S("path", { d: `M${K[0] - 5},${K[1] - 26} q5,-6 10,0 q-5,6 -10,0`, fill: "none", style: "stroke:var(--fio)", "stroke-width": 1.4 }, balanco);
 
-    const gato = gatoEspia(svg, 352, 430, -90, "c6");
+    const gato = gatoEspia(svg, 344, 430, -90, "c6");
     const solta = 3600;
     const inst = {
       cabeca: K,

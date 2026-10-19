@@ -335,7 +335,7 @@ CENAS.push({
     useBotao(livre, 140, 330, 72, "#0E0E10");
     const maoG = S("g", {}, svg);
     const mao = maoEsqueleto(maoG, 5);
-    const gato = gatoEspia(svg, 30, 632, 8, "c15", 1.1, () => {
+    const gato = gatoEspia(svg, 344, 380, -90, "c15", 1.35, () => {
       Som.miau();
       if (E.gatos.size >= 5) Cartao.mostrar(txt("c15_gato"), undefined, true);
       else aviso(txt("aviso_gato", { G: E.gatos.size }));
@@ -343,21 +343,22 @@ CENAS.push({
     gato.g.style.setProperty("--olho", C.amarelo);
 
     // 10 botões escondidos
-    const POS = [[40, 128], [318, 98], [296, 236], [58, 300], [334, 372], [28, 468], [150, 150], [262, 508], [104, 560], [318, 604]];
+    // longe do envelope, do rodapé e do cartão (que aparece embaixo)
+    const POS = [[46, 96], [180, 118], [314, 92], [56, 196], [304, 186], [40, 312], [320, 304], [96, 432], [264, 446], [180, 488]];
     const achados = new Set();
     const bts = POS.map(([x, y], i) => {
       const g = S("g", { class: "toque" }, svg);
-      S("circle", { r: 24, fill: "transparent" }, g);
-      const anel = S("circle", { r: 15, fill: "none", stroke: C.amarelo, "stroke-width": 1.8, "stroke-dasharray": "3 3", opacity: 0 }, g);
-      S("circle", { r: 16, fill: "url(#brilhoOuro)", opacity: .35 }, g);
-      useBotao(g, 0, 0, 9 + (i % 3) * 2, "#8a7a5a");
+      S("circle", { r: 32, fill: "transparent" }, g);
+      const halo = S("circle", { r: 24, fill: "url(#brilhoOuro)", opacity: .5 }, g);
+      const anel = S("circle", { r: 19, fill: "none", stroke: C.amarelo, "stroke-width": 2, "stroke-dasharray": "3 3", opacity: 0 }, g);
+      useBotao(g, 0, 0, 12 + (i % 3) * 2, "#9a8a64");
       g.addEventListener("pointerup", (ev) => {
         ev.stopPropagation();
         Som.ding(i + 2);
         Cartao.mostrar(TEXTOS.botoes[i], undefined, true);
         if (!achados.has(i)) { achados.add(i); anel.setAttribute("opacity", 1); contar(); }
       });
-      return { g, x, y, f: i * .7 };
+      return { g, halo, x, y, f: i * .7, i };
     });
 
     const sob = sobre(raiz);
@@ -379,10 +380,19 @@ CENAS.push({
     const rolar = H("div", { class: "rolar" }, carta);
     const pars = TEXTOS.carta.map((p) => H("p", { class: p.tipo || "", txt: resolver(p.t) }, rolar));
     const fechar = H("button", { class: "fechar", "aria-label": txt("c15_fechar"), txt: "×" }, carta);
+    const fecharFim = H("button", { class: "fechar-fim", txt: txt("c15_fechar") }, rolar);
     let abertaEm = null;
-    const abrir = () => { carta.classList.add("on"); abertaEm = E.relogio; rolar.scrollTop = 0; pars.forEach((p) => p.classList.remove("v")); Som.fio(); Cartao.esconder(); };
+    const abrir = () => { palco.classList.add("lendo"); carta.classList.add("on"); abertaEm = E.relogio; rolar.scrollTop = 0; pars.forEach((p) => p.classList.remove("v")); fecharFim.classList.remove("v"); Som.fio(); Cartao.esconder(); };
     env.addEventListener("click", (e) => { e.stopPropagation(); abrir(); });
-    fechar.addEventListener("click", (e) => { e.stopPropagation(); carta.classList.remove("on"); abertaEm = null; });
+    const fecharCarta = (e) => {
+      e.stopPropagation();
+      carta.classList.remove("on");
+      palco.classList.remove("lendo");
+      abertaEm = null;
+      if (achados.size < 10) aviso(txt("c15_dica"), 3200);
+    };
+    fechar.addEventListener("click", fecharCarta);
+    fecharFim.addEventListener("click", fecharCarta);
     denovo.addEventListener("click", (e) => { e.stopPropagation(); recomecar(); });
     gravar.addEventListener("click", (e) => { e.stopPropagation(); location.href = location.pathname + "?gravar=1"; });
 
@@ -398,7 +408,12 @@ CENAS.push({
         maoG.setAttribute("transform", `translate(${n1(eio(fase(t, 1600, 3600)) * 340)} 0)`);
         livre.setAttribute("transform", `translate(${n1(Math.sin(t / 2600) * 10)} ${n1(Math.sin(t / 1900) * 12 - fase(t, 1600, 5000) * 40)}) rotate(${n1(t * .006)} 140 330)`);
         livre.setAttribute("opacity", 1 - fase(t, 4000, 6000) * .55);
-        bts.forEach((b) => b.g.setAttribute("transform", `translate(${b.x} ${n1(b.y + Math.sin(t / 1300 + b.f) * 4)})`));
+        bts.forEach((b) => {
+          b.g.setAttribute("transform", `translate(${b.x} ${n1(b.y + Math.sin(t / 1300 + b.f) * 4)})`);
+          const pul = achados.has(b.i) ? .8 : .45 + .55 * Math.max(0, Math.sin(t / 700 + b.f * 2));
+          b.halo.setAttribute("opacity", pul.toFixed(2));
+          b.halo.setAttribute("r", n1(20 + pul * 10));
+        });
         env.style.setProperty("--s", eo(fase(t, 2600, 3400)).toFixed(3));
         topo.style.opacity = rod.style.opacity = fase(t, 3200, 4200);
         gato.tocar(t);
@@ -411,14 +426,12 @@ CENAS.push({
         if (abertaEm !== null) {
           const u = E.relogio - abertaEm;
           pars.forEach((p, i) => { if (u > 600 + i * 900) p.classList.add("v"); });
+          if (u > 600 + pars.length * 900) fecharFim.classList.add("v");
           if (E.gravar && u > 3000) rolar.scrollTop += .6;
         }
         if (E.gravar && abertaEm === null && t > 5200 && !this.abriu) { this.abriu = true; abrir(); }
       },
-      tap(ev) {
-        // tocar no gato da cena 15 mostra o placar de gatos
-        return false;
-      },
+      sair() { palco.classList.remove("lendo"); },
     };
   },
 });
