@@ -168,7 +168,7 @@ CENAS.push({
   montar(raiz) {
     const m = criarMundoPorta(raiz);
     let abre = null, tt = 0;
-    const abrir = (t) => { abre = t; Som.giro(); setTimeout(() => Som.porta(), 320); };
+    const abrir = (t) => { abre = t; Som.giro(); Som.porta(.32); };
     return {
       mundo: m,
       redimensionar: m.redimensionar,

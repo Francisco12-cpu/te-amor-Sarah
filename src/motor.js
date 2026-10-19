@@ -473,7 +473,17 @@ function boot() {
   if (Q.get("quadro") === "1") {
     // modo quadro a quadro: usado só para gerar o MP4 de backup
     let ts = 0;
-    window.__quadro = (ms) => { ts += ms; passo(ms, ts); };
+    window.__quadro = (ms) => { ts += ms; passo(ms, ts); if (window.__comSom) Som.avancar(ms); };
+    window.__audio = {
+      iniciar(seg) { Som.iniciarOffline(seg); window.__comSom = true; },
+      async renderizar() { window.__pcm = await Som.renderizar(); return window.__pcm.length; },
+      pedaco(i, tam) {
+        const b = window.__pcm.subarray(i, i + tam);
+        let s = "";
+        for (let k = 0; k < b.length; k += 32768) s += String.fromCharCode.apply(null, b.subarray(k, k + 32768));
+        return btoa(s);
+      },
+    };
     window.__estado = () => ({ idx: E.idx, t: tCena() });
   } else requestAnimationFrame(loop);
 }
