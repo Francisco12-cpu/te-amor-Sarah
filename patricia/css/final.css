@@ -1,0 +1,66 @@
+/* 6 ── mensagem final */
+#final { text-align: center; overflow: hidden; }
+
+.titulo-final {
+  font-family: var(--mao); font-weight: 700; color: #8E3550;
+  font-size: clamp(40px, 12vw, 58px); line-height: 1.05; margin-top: 8px;
+  text-shadow: 0 2px 0 var(--dourado-claro), 0 0 18px rgba(243, 223, 166, .8);
+  animation: titulo 1.2s cubic-bezier(.3, 1.4, .5, 1) both;
+}
+@keyframes titulo { from { opacity: 0; transform: scale(.7) rotate(-4deg); } }
+
+.coracoes { position: absolute; inset: 0; pointer-events: none; z-index: -1; }
+.coracoes i {
+  position: absolute; bottom: -40px; font-style: normal; color: var(--rosa);
+  font-size: 22px; opacity: .7; animation: sobe 12s linear infinite;
+}
+.coracoes i:nth-child(odd) { color: var(--dourado-claro); font-size: 16px; }
+.coracoes i:nth-child(1) { left: 5%; animation-delay: 0s; }
+.coracoes i:nth-child(2) { left: 18%; animation-delay: -3s; animation-duration: 14s; }
+.coracoes i:nth-child(3) { left: 30%; animation-delay: -7s; }
+.coracoes i:nth-child(4) { left: 42%; animation-delay: -1s; animation-duration: 16s; }
+.coracoes i:nth-child(5) { left: 55%; animation-delay: -9s; }
+.coracoes i:nth-child(6) { left: 66%; animation-delay: -5s; animation-duration: 13s; }
+.coracoes i:nth-child(7) { left: 76%; animation-delay: -11s; }
+.coracoes i:nth-child(8) { left: 86%; animation-delay: -2s; animation-duration: 15s; }
+.coracoes i:nth-child(9) { left: 93%; animation-delay: -8s; }
+.coracoes i:nth-child(10) { left: 48%; animation-delay: -4s; animation-duration: 18s; }
+@keyframes sobe { to { transform: translateY(-115vh) rotate(25deg); } }
+
+.bolo { width: min(80vw, 300px); margin: 6px auto 0; aspect-ratio: 240 / 210; }
+.bolo svg { overflow: visible; }
+.vela { cursor: pointer; outline: none; }
+.vela:focus-visible rect:nth-child(2) { stroke: #B9506B; stroke-width: 2; }
+.chama { transform-box: fill-box; transform-origin: 50% 100%; animation: chama .5s ease-in-out infinite alternate; }
+.vela:nth-of-type(2) .chama { animation-delay: -.2s; }
+@keyframes chama { to { transform: scale(.9, 1.1) rotate(3deg); } }
+.vela.apagada .chama { animation: apaga .3s ease forwards; }
+@keyframes apaga { to { transform: scale(0, .3); opacity: 0; } }
+.fumaca { opacity: 0; transform-box: fill-box; }
+.vela.apagada .fumaca { animation: fumaca 1.6s ease-out forwards; }
+@keyframes fumaca { 20% { opacity: .8; } 100% { opacity: 0; transform: translateY(-18px); } }
+
+.dica-velas { font-weight: 600; margin: 6px auto 12px; max-width: 32ch; }
+.acoes-final { margin: 10px 0; }
+.btn-musica { min-width: 220px; }
+
+.envelope { margin-top: 10px; }
+.carta {
+  text-align: left; margin: 6px 0 0; padding: 26px 22px 22px;
+  background:
+    repeating-linear-gradient(transparent 0 31px, rgba(212, 175, 90, .25) 31px 32px),
+    var(--branco);
+  border-radius: 14px; border: 1px solid var(--dourado-claro);
+  box-shadow: var(--sombra);
+  outline: none;
+  animation: abre-carta .7s cubic-bezier(.3, 1.3, .5, 1) both;
+  transform-origin: 50% 0;
+}
+@keyframes abre-carta { from { transform: rotateX(70deg); opacity: 0; } }
+.carta p {
+  margin: 0 0 12px; font-size: 18px; line-height: 1.6;
+  animation: linha .7s ease both; animation-delay: calc(.5s + var(--i) * .55s);
+}
+@keyframes linha { from { opacity: 0; transform: translateY(8px); } }
+.carta .forte { font-family: var(--mao); font-size: 28px; font-weight: 700; color: #8E3550; line-height: 1.2; }
+.carta .ass { font-family: var(--mao); font-size: 24px; text-align: right; color: var(--dourado-escuro); margin: 4px 0 0; }
