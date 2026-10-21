@@ -1,0 +1,54 @@
+/* 4 ── sacolas de compras */
+.vitrine {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px 14px;
+}
+@media (min-width: 440px) { .vitrine { grid-template-columns: repeat(3, 1fr); } }
+
+.sacola {
+  width: 100%; border: 0; background: none; padding: 6px 4px 0; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  animation: chega .6s cubic-bezier(.3, 1.5, .5, 1) var(--atraso) both;
+}
+@keyframes chega { from { opacity: 0; transform: translateY(24px) scale(.9); } }
+.sacola-arte {
+  display: block; width: 100%; max-width: 132px; aspect-ratio: 120 / 140;
+  filter: drop-shadow(0 10px 12px rgba(140, 80, 95, .2));
+  transform-origin: 50% 100%;
+  transition: transform .25s;
+}
+.sacola:hover .sacola-arte { transform: translateY(-4px) rotate(-2deg); }
+.sacola:active .sacola-arte { transform: scale(.95); }
+.etiqueta {
+  font-family: var(--serifa); font-size: 14px; font-weight: 600; line-height: 1.2;
+  background: var(--branco); padding: 4px 10px; border-radius: 6px;
+  border: 1px solid var(--dourado-claro);
+}
+
+.papel-seda { transform: translateY(40px); transform-box: view-box; opacity: 0; transition: transform .5s cubic-bezier(.3, 1.6, .5, 1), opacity .2s; }
+.alcas { transform-box: view-box; transform-origin: 60px 46px; transition: transform .4s; }
+.abrindo .sacola-arte { animation: balanca .5s ease; }
+@keyframes balanca { 25% { transform: rotate(-6deg); } 75% { transform: rotate(5deg); } }
+.abrindo .alcas, .aberta .alcas { transform: scaleY(.6) translateY(-10px); }
+.abrindo .papel-seda, .aberta .papel-seda { transform: translateY(0); opacity: 1; }
+.aberta .etiqueta::after { content: " ✓"; color: #B9506B; }
+
+.recibo {
+  font-family: "Courier New", ui-monospace, monospace; color: var(--texto);
+  background:
+    linear-gradient(135deg, transparent 6px, #FFFEFB 0) top left / 12px 10px repeat-x,
+    #FFFEFB;
+  padding: 6px 4px 0;
+}
+.janela-recibo .janela-caixa { background: #FFFEFB; border-radius: 6px; transform: rotate(-1deg); }
+.recibo-loja { font-family: var(--serifa); font-size: 22px; font-weight: 700; margin: 0; }
+.recibo-linha { margin: 10px 0; border: 0; border-top: 2px dotted var(--nude-escuro); }
+.recibo-texto { font-family: var(--sans); font-size: 18px; margin: 10px 0; line-height: 1.45; }
+.recibo-preco { display: flex; justify-content: space-between; margin: 0; font-size: 15px; text-transform: uppercase; }
+.recibo-preco b { color: #B9506B; }
+
+.total {
+  text-align: center; font-family: var(--serifa); font-size: 19px; font-weight: 600;
+  margin: 10px auto 0; max-width: 30ch; color: #8E3550;
+}
+.total:empty { display: none; }
