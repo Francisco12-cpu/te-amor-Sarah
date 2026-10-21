@@ -1,0 +1,53 @@
+/* 5 ── penteadeira */
+.cena-penteadeira {
+  border-radius: 22px; overflow: hidden; background: var(--branco);
+  box-shadow: var(--sombra), 0 0 0 6px var(--branco), 0 0 0 7px var(--dourado-claro);
+  margin: 6px 6px 0;
+}
+.penteadeira-svg { display: block; width: 100%; height: auto; }
+
+.penteadeira-svg .item { cursor: pointer; outline: none; transform-box: fill-box; transform-origin: 50% 100%; }
+.penteadeira-svg .item:focus-visible { filter: drop-shadow(0 0 4px #B9506B) drop-shadow(0 0 2px #B9506B); }
+.penteadeira-svg .item.agindo:not([data-id="espelho"]) { animation: mexe .6s cubic-bezier(.3, 1.5, .5, 1); }
+@keyframes mexe { 30% { transform: translateY(-8px) rotate(-5deg); } 60% { transform: rotate(4deg); } }
+.penteadeira-svg [data-id="espelho"].agindo { animation: none; }
+
+.lampada { fill: #FFF6E0; stroke: #D4AF5A; stroke-width: 1.5; transition: fill .4s, filter .4s; }
+.lampada.acesa { fill: #FFE9A8; filter: drop-shadow(0 0 5px #F3D27A); }
+.completa .lampada { animation: pisca 1.6s ease-in-out infinite alternate; }
+.completa .lampada:nth-of-type(2n) { animation-delay: .8s; }
+@keyframes pisca { to { fill: #FFF9E6; filter: drop-shadow(0 0 9px #F3D27A); } }
+
+.reflexo { transform-box: view-box; translate: -160px 0; }
+.agindo .reflexo { animation: brilho-espelho 1.1s ease; }
+@keyframes brilho-espelho { to { translate: 220px 0; } }
+
+.beijo { opacity: 0; transform-box: fill-box; transform-origin: 50% 50%; }
+.beijo.on { animation: beija .5s cubic-bezier(.3, 1.6, .5, 1) forwards; }
+@keyframes beija { from { opacity: 0; transform: scale(2.2) rotate(-10deg); } to { opacity: .85; transform: rotate(-10deg); } }
+
+.bala { transform-box: fill-box; }
+.agindo .bala { animation: gira-batom 1.2s ease; }
+@keyframes gira-batom { 40%, 70% { transform: translateY(-10px); } }
+
+.tampa { transform-box: fill-box; transform-origin: 50% 100%; }
+[data-id="blush"].agindo .tampa { animation: abre-tampa 1.2s ease; }
+@keyframes abre-tampa { 30%, 70% { transform: rotate(-35deg) translate(-6px, -4px); } }
+
+[data-id="perfume"].agindo .frasco-perfume circle { animation: aperta .4s ease 2; transform-box: fill-box; transform-origin: 50% 50%; }
+@keyframes aperta { 50% { transform: scale(.7); } }
+
+.fio-loiro { stroke-dasharray: 40; stroke-dashoffset: 40; }
+.agindo .fio-loiro { animation: fio 1s ease forwards; }
+@keyframes fio { to { stroke-dashoffset: 0; } }
+
+.bilhete {
+  display: flex; gap: 12px; align-items: center;
+  margin: 18px 4px 0; padding: 14px 16px; min-height: 84px;
+  background: var(--branco); border-radius: 16px; border: 1px solid var(--dourado-claro);
+  box-shadow: 0 6px 16px rgba(140, 80, 95, .1);
+}
+.bilhete-ic { font-size: 30px; flex: none; }
+.bilhete p { margin: 0; font-size: 17px; }
+.bilhete.novo { animation: bilhete .5s cubic-bezier(.3, 1.5, .5, 1); }
+@keyframes bilhete { from { transform: translateY(10px) scale(.97); opacity: .3; } }

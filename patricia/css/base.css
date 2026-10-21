@@ -120,7 +120,7 @@ h1, h2 {
   font-family: var(--serifa); font-weight: 700; color: var(--texto);
   text-align: center; margin: 6px 0 4px; line-height: 1.15;
 }
-h2 { font-size: clamp(28px, 8vw, 36px); }
+h2 { font-size: clamp(26px, 7.4vw, 36px); }
 h2 .enfeite { color: var(--dourado); font-size: .7em; vertical-align: middle; }
 .sub { text-align: center; color: var(--texto-suave); margin: 0 auto 16px; max-width: 34ch; }
 .contador {
