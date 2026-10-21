@@ -74,7 +74,7 @@ button { font: inherit; color: inherit; }
 
 #itinerario {
   flex: 1; display: flex; justify-content: space-between; align-items: center;
-  list-style: none; margin: 0 4px; padding: 0; position: relative; min-width: 0;
+  list-style: none; margin: 0 auto; padding: 0; position: relative; min-width: 0; max-width: 420px;
 }
 #itinerario::before {
   content: ""; position: absolute; left: 6px; right: 6px; top: 50%;

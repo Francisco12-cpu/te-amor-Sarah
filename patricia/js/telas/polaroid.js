@@ -2,7 +2,7 @@
 // 3 ── Câmera antiga: tira a foto, a polaroid sai e só revela balançando o celular.
 // Sem sensor (computador, ou permissão negada): esfregar o dedo/mouse na foto também revela.
 (() => {
-  const META = 1500; // "energia" de balanço para revelar 100%
+  const META = 2400; // "energia" de balanço para revelar 100%
   let energia = 0, revelada = false, ejetada = false, ultimaAcel = null, temSensor = false;
   let foto, barra, pct, dica, btnAjuda, btnFoto, ouvindo = false, tmSemSensor = 0;
 
