@@ -44,6 +44,7 @@ body {
 }
 
 button { font: inherit; color: inherit; }
+[hidden] { display: none !important; }
 
 .pular {
   position: absolute; left: 8px; top: -60px; z-index: 100;
