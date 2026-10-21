@@ -1,0 +1,52 @@
+/* 2 ── mapa de viagens */
+.mapa-moldura {
+  border-radius: 22px; overflow: hidden; background: var(--branco);
+  box-shadow: var(--sombra), 0 0 0 6px var(--branco), 0 0 0 7px var(--dourado-claro);
+  margin: 6px 6px 0;
+}
+.mapa-svg { display: block; width: 100%; height: auto; touch-action: manipulation; }
+
+.rota { animation: tracejado 1.2s linear infinite; }
+@keyframes tracejado { to { stroke-dashoffset: -24; } }
+
+.pin { cursor: pointer; outline: none; }
+.pin-corpo { animation: cai .7s cubic-bezier(.3, 1.6, .5, 1) var(--atraso, .3s) both; transform-box: fill-box; transform-origin: 50% 100%; }
+@keyframes cai { from { transform: translateY(-60px); opacity: 0; } }
+.pin.pula .pin-corpo { animation: pulinho .6s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes pulinho { 40% { transform: translateY(-12px) scale(1.12); } }
+.pin:focus-visible .pin-corpo path { stroke: var(--texto); stroke-width: 3; }
+.pin-nome { font-size: 12px; font-weight: 700; fill: var(--texto); paint-order: stroke; stroke: #fff; stroke-width: 4px; stroke-linejoin: round; }
+
+.proxima-viagem { animation: flutua 3s ease-in-out infinite; transform-box: fill-box; }
+@keyframes flutua { 50% { translate: 0 -4px; } }
+
+.passaporte {
+  list-style: none; padding: 0; margin: 12px 0 0;
+  display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;
+}
+.selo {
+  width: 88px; height: 88px; border-radius: 50%;
+  display: grid; place-content: center; text-align: center; line-height: 1.1;
+  border: 2px dashed var(--nude-escuro); color: var(--texto-suave); background: rgba(255, 255, 255, .6);
+  font-size: 22px;
+}
+.selo.carimbado {
+  border: 3px double #B9506B; color: #8E3550; background: #FFF5F7;
+  transform: rotate(-8deg); animation: carimbaSelo .45s cubic-bezier(.3, 1.6, .5, 1);
+}
+.selo b { font-family: var(--serifa); font-size: 14px; }
+.selo small { font-size: 11px; letter-spacing: .14em; }
+.selo .selo-ic { font-size: 20px; }
+@keyframes carimbaSelo { from { transform: rotate(-8deg) scale(1.8); opacity: 0; } }
+.selo.grande { width: 110px; height: 110px; margin: 0 auto 6px; }
+
+.cartao-destino h3 { font-family: var(--serifa); margin: 8px 0 4px; font-size: 24px; }
+.cartao-destino p { margin: 0; color: var(--texto); }
+
+.proximos { margin-top: 20px; text-align: center; }
+.proximos h3 { font-family: var(--serifa); font-size: 18px; margin: 0 0 8px; color: var(--dourado-escuro); }
+.proximos ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.proximos li {
+  padding: 6px 14px; border-radius: 999px; font-size: 14px;
+  background: var(--branco); border: 1px dashed var(--dourado);
+}

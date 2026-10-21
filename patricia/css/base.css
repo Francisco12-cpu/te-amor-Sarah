@@ -24,7 +24,8 @@
 
 * { box-sizing: border-box; }
 
-html, body { margin: 0; height: 100%; }
+html { background: var(--creme); }
+html, body { margin: 0; }
 
 body {
   min-height: 100vh;
@@ -163,7 +164,7 @@ h2 .enfeite { color: var(--dourado); font-size: .7em; vertical-align: middle; }
 }
 #rodape.escondido { transform: translateY(120%); opacity: 0; pointer-events: none; }
 #rodape .btn { flex: 1; }
-#btn-voltar { flex: 0 0 auto; }
+#rodape #btn-voltar { flex: 0 0 auto; }
 
 /* ── balão de mensagem (aria-live) */
 #balao {
