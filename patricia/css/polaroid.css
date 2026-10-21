@@ -1,0 +1,85 @@
+/* 3 ── câmera antiga e polaroid */
+.estudio { position: relative; display: flex; flex-direction: column; align-items: center; margin-top: 8px; }
+.camera {
+  position: relative; z-index: 2; width: min(78vw, 250px); aspect-ratio: 240 / 170;
+  filter: drop-shadow(0 12px 18px rgba(140, 80, 95, .22));
+}
+.flash .camera { animation: clique .35s ease; }
+@keyframes clique { 40% { transform: scale(.96) translateY(3px); } }
+
+.flash-luz { position: fixed; inset: 0; z-index: 70; background: #fff; opacity: 0; pointer-events: none; }
+.flash .flash-luz { animation: flash .6s ease-out; }
+@keyframes flash { 10% { opacity: .95; } 100% { opacity: 0; } }
+
+/* a fenda por onde a foto sai */
+.saida {
+  position: relative; z-index: 1;
+  margin-top: calc(min(78vw, 250px) * -0.12);
+  width: min(82vw, 290px);
+  overflow: hidden; padding: 0 14px 30px;
+  max-height: 0; transition: max-height 1.5s steps(14, end);
+}
+.ejetando .saida { max-height: 560px; }
+.foto-polaroid {
+  --p: 0; --balanco: 0deg;
+  margin: 0; padding: 12px 12px 0; background: #FFFEFB; border-radius: 3px;
+  box-shadow: 0 14px 28px rgba(74, 44, 51, .22), 0 2px 4px rgba(74, 44, 51, .12);
+  transform: translateY(-104%); visibility: hidden;
+  touch-action: none; cursor: grab;
+}
+.ejetando .foto-polaroid { visibility: visible; animation: ejeta 1.5s steps(14, end) forwards; }
+@keyframes ejeta { to { transform: translateY(0); } }
+.solta .foto-polaroid { animation: none; transform: rotate(var(--balanco)); transition: transform .25s ease-out; }
+.foto-polaroid.pronta { transition: transform .8s cubic-bezier(.3, 1.5, .5, 1); }
+
+.foto-area { position: relative; aspect-ratio: 1 / 1; overflow: hidden; background: #2E2B36; }
+.foto-area img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%;
+  -webkit-user-drag: none; user-select: none;
+  filter:
+    blur(calc((1 - var(--p)) * 9px))
+    sepia(calc(.42 - var(--p) * .2))
+    saturate(calc(.25 + var(--p) * .8))
+    contrast(calc(.8 + var(--p) * .25))
+    brightness(calc(1.5 - var(--p) * .44));
+}
+/* a "química" escura que vai sumindo */
+.quimica {
+  position: absolute; inset: 0;
+  background: linear-gradient(160deg, #3B3846, #4E4B5E 50%, #5D5A6E);
+  opacity: calc(1 - var(--p) * 1.25);
+}
+/* cara de foto antiga: tom quente, vinheta e grão */
+.vinheta {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 45%, transparent 50%, rgba(70, 35, 20, .38) 100%),
+    linear-gradient(170deg, rgba(255, 196, 150, .16), rgba(255, 170, 190, .12));
+  mix-blend-mode: multiply;
+}
+.foto-area::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .16; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.foto-polaroid figcaption {
+  height: 58px; display: grid; place-items: center;
+  font-family: var(--mao); font-size: 27px; color: #4A2C33;
+  clip-path: inset(0 100% 0 0);
+}
+.foto-polaroid.pronta figcaption { animation: escreve 1.6s .5s ease forwards; }
+@keyframes escreve { to { clip-path: inset(0 0 0 0); } }
+
+.acao-foto { text-align: center; margin: 18px 0 0; }
+.revelacao { text-align: center; }
+.revelacao .dica { font-weight: 600; margin: 4px auto 10px; max-width: 30ch; }
+.progresso {
+  height: 12px; border-radius: 999px; background: var(--branco); overflow: hidden;
+  box-shadow: inset 0 0 0 2px var(--nude); max-width: 280px; margin: 0 auto;
+}
+.progresso i {
+  display: block; height: 100%; width: 0; border-radius: inherit;
+  background: linear-gradient(90deg, var(--rosa), var(--dourado));
+  transition: width .2s;
+}
+.pct { font-size: 14px; color: var(--texto-suave); margin: 6px 0; }
+.revelada .revelacao .dica, .revelada .progresso, .revelada .pct { display: none; }
